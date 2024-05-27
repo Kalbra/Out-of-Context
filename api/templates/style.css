@@ -1,3 +1,138 @@
+
+
 html, body {
     margin: 0px;
+    background-color: rgb(214, 75, 203); /* safe delete */
+}
+
+#header {
+    background-color: rgb(192, 110, 178);  /* safe delete */
+}
+
+#main {
+    background-color: rgb(194, 44, 169);  /* safe delete */
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    grid-gap: var(--main-container-grid-gap);
+
+    padding-inline: var(--main-container-padding-inline);
+}
+
+.comment {
+    background-color: var(--main-comment-background-color);
+    border: var(--main-comment-border-line-width) solid var(--main-comment-border-color);
+    border-radius: var(--main-comment-border-radius);
+    padding: var(--main-commment-padding);
+    
+   
+}
+
+.comment-container {
+    display: flex;
+    gap: var(--main-commment-container-gap);
+}
+
+.comment .comment-text {
+    font-size: var(--main-comment-p-font-size);
+    margin: 0px;
+    font-family: var(--main-comment-p-font-family);
+}
+
+.comment .comment-text::before {
+    content: '\201E'; /* Linkes Anführungszeichen Unten */
+}
+
+.comment .comment-text::after {
+    content: '\201D'; /* Rechtes Anführungszeichen */
+}
+
+.comment .comment-author {
+    margin: 0px;
+
+    font-family: var(--main-commment-author-font-family);
+    font-size: var(--main-comment-author-font-size);
+}
+
+.comment .comment-author::after {
+    content: ':'; /* Macht ein : nach dem Authornamen */
+}
+
+.comment img {
+    width: var(--main-comment-img-width); /* setzt die Breite des Bildes */
+    height: var(--main-comment-img-width); /* Setze die Höhe gleich lang wie die Breite */
+
+    border-radius: var(--main-comment-img-border-radius); /* macht das Bild rund */
+}
+
+#footer {
+    background-color: rgb(248, 59, 217);  /* safe delete */
+}
+  
+
+/* Responsive Design */
+
+@media (min-width: 1024px) {
+    /* For PC */
+
+    :root {
+        --main-comment-background-color: rgb(237, 236, 250);
+        --main-comment-border-color: #924876;
+        --main-container-grid-gap: 20px;
+        --main-container-padding-inline: 5vw;
+        --main-comment-border-radius: 15px;
+        --main-commment-padding: 5px;
+        --main-comment-p-font-size: 2vw;
+        --main-comment-border-line-width: 3px;
+        --main-comment-img-width: 1.5vw;
+        --main-comment-img-border-radius: 90px;
+        --main-comment-p-font-family: Arial, Helvetica, sans-serif;
+        --main-commment-author-font-family: 'Courier New', Courier, monospace;
+        --main-comment-author-font-size: 1.5vw;
+        --main-commment-container-gap: 10px;
+      }
+}
+
+@media (min-width: 600px) and (max-width: 1023px) {
+    /* For Tablet */
+
+    :root {
+        --main-comment-background-color: rgb(237, 236, 250);
+        --main-comment-border-color: #924876;
+        --main-container-grid-gap: 20px;
+        --main-container-padding-inline: 5vw;
+        --main-comment-border-radius: 15px;
+        --main-commment-padding: 5px;
+        --main-comment-p-font-size: 3vw;
+        --main-comment-border-line-width: 3px;
+        --main-comment-img-width: 2.5vw;
+        --main-comment-img-border-radius: 90px;
+        --main-comment-p-font-family: Arial, Helvetica, sans-serif;
+        --main-commment-author-font-family: 'Courier New', Courier, monospace;
+        --main-comment-author-font-size: 2.5vw;
+        --main-commment-container-gap: 10px;
+      }
+}
+
+@media (max-width: 599px) {
+    /* For Handy */
+
+    :root {
+        --main-comment-background-color: rgb(237, 236, 250);
+        --main-comment-border-color: #924876;
+        --main-container-grid-gap: 20px;
+        --main-container-padding-inline: 5vw;
+        --main-comment-border-radius: 15px;
+        --main-commment-padding: 5px;
+        --main-comment-p-font-size: 5vw;
+        --main-comment-border-line-width: 3px;
+        --main-comment-img-width: 4vw;
+        --main-comment-img-border-radius: 90px;
+        --main-comment-p-font-family: Arial, Helvetica, sans-serif;
+        --main-commment-author-font-family: 'Courier New', Courier, monospace;
+        --main-comment-author-font-size: 4vw;
+        --main-commment-container-gap: 10px;
+      }
 }
