@@ -18,6 +18,7 @@ def home():
 @app.route('/senden')
 def home():
     resp = make_response(render_template('index.html'))
+    return resp
 
 
 if __name__ == '__main__':
