@@ -29,7 +29,7 @@ api.add_resource(Test, '/test')
 
 @app.route('/')
 def hello_world():  # put application's code here
-    return render_template('index.html', utc_dt=datetime.datetime.now())
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
