@@ -16,7 +16,7 @@ def home():
     return resp
 
 @app.route('/senden')
-def home():
+def senden():
     resp = make_response(render_template('index.html'))
     return resp
 
