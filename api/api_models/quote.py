@@ -1,12 +1,10 @@
 from flask_restful import Resource, Api
-from app import app
 
-api = Api(app, prefix='/api')
 
-class Test(Resource):
+class Quote(Resource):
     def get(self):
         return [{
-            "teacher_name": "Jörg Geßner",
+            "teacher_name": "Jörg ner",
             "quote": "Es irrt der Mensch solang er strebt.",
             "votes": 4,
             "creation_date": "13.12.2005",
@@ -20,6 +18,3 @@ class Test(Resource):
                 "voted": "up"
             },
         ]
-
-
-api.add_resource(Test, '/test')
