@@ -1,5 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
-from ..app import db
+from .base import db, ma
 
 
 class Quote(db.Model):
@@ -11,3 +10,15 @@ class Quote(db.Model):
 
     quote = db.Column(db.String(1000), nullable=False)
     votes = db.Column(db.Integer, nullable=False, default=0)
+
+    def __repr__(self):
+        return f'<Quote {self.quote}>'
+
+
+class LittleQuoteSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'teacher_id', 'quote', 'votes')
+        model = Quote
+
+
+little_quotes_schema = LittleQuoteSchema(many=True)
