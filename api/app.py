@@ -3,7 +3,7 @@ from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
-from api.models.base import db, ma
+from api.models.base import db
 
 from api.api_models.quote import QuoteQuery
 
@@ -13,7 +13,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///demo.db'
 
 
 db.init_app(app)
-ma.init_app(app)
 
 
 api = Api(app, prefix='/api')

@@ -1,8 +1,7 @@
 import random
 
 from api.app import db, app
-from api.models.teacher import Teacher
-from api.models.quote import Quote
+from api.models.models import Quote, Teacher
 from faker import Faker
 import os
 

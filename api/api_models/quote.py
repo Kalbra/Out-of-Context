@@ -1,10 +1,25 @@
+from flask import jsonify
 from flask_restful import Resource, Api
 
-from api.models.teacher import Teacher
-from api.models.quote import Quote, little_quotes_schema
+from api.models.models import Quote
 
 
 class QuoteQuery(Resource):
     def get(self):
         quotes = Quote.query.limit(100).all()
-        return little_quotes_schema.dump(quotes)
+        quotes_list = []
+        for quote in quotes:
+            quotes_list.append(
+                {
+                    "id": quote.id,
+                    "teacher_name": quote.teacher.name,
+                    "quote": quote.quote,
+                    "votes": quote.votes,
+                    "voted": "down"
+                }
+            )
+        return jsonify(
+            {
+                "quotes": quotes_list
+            }
+        )
