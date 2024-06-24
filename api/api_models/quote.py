@@ -7,7 +7,7 @@ from api.models.base import db
 
 class QuoteQuery(Resource):
     def get(self):
-        quotes = Quote.query.limit(100).all()
+        quotes = Quote.query.filter(Quote.approved == True).limit(100).all()
         quotes_list = []
         for quote in quotes:
             quotes_list.append(
@@ -42,10 +42,11 @@ class NewQuote(Resource):
 
                 db.session.add(Quote(teacher_id=teacher_id, quote=quote, teacher=teacher))
                 db.session.commit()
+
         except KeyError as e:
             return {"message": "Not all parameters are provided correctly", "error": str(e)}, 400
         except ValueError as e:
-            return {"message": "Not all paraemters are provided as correct type", "error": str(e)}
+            return {"message": "Not all paraemters are provided as correct type", "error": str(e)}, 400
 
         response = {
             'message': 'Data received',
