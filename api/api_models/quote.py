@@ -34,11 +34,14 @@ class NewQuote(Resource):
         try:
             data = request.get_json()
         except Exception as e:
-            return {"message": "Invalid JSON data", "error": str(e)}, 400
+            response = jsonify({"message": "Invalid JSON data", "error": str(e)})
+            response.status = 400
+            return response
 
         try:
             teacher_id = int(data["teacher_id"])
             quote = data["quote"]
+            print(quote)
 
             if teacher_id and quote:
                 teacher = Teacher.query.get(teacher_id)
@@ -47,12 +50,17 @@ class NewQuote(Resource):
                 db.session.commit()
 
         except KeyError as e:
-            return {"message": "Not all parameters are provided correctly", "error": str(e)}, 400
+            response = jsonify({"message": "Not all parameters are provided correctly", "error": str(e)})
+            response.status = 400
+            return response
         except ValueError as e:
-            return {"message": "Not all paraemters are provided as correct type", "error": str(e)}, 400
+            response = jsonify({"message": "Not all paraemters are provided as correct type", "error": str(e)})
+            response.status = 400
+            return response
 
-        response = {
+        response = jsonify({
             'message': 'Data received',
             'data': data
-        }
-        return response, 201
+        })
+        response.status = 201
+        return response

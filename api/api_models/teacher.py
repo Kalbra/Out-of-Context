@@ -19,6 +19,6 @@ class TeacherList(Resource):
             )
         return jsonify(
             {
-                "quotes": teacher_list
+                "teachers": teacher_list
             }
         )
