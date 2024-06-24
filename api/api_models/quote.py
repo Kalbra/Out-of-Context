@@ -1,12 +1,14 @@
 from flask import request, jsonify
 from flask_restful import Resource, Api
 
+from api.auth import check_cookie
 from api.models.models import Quote, Teacher
 from api.models.base import db
 
 
 class QuoteQuery(Resource):
-    def get(self):
+    @check_cookie
+    def get(self, instance_id):
         quotes = Quote.query.filter(Quote.approved == True).limit(100).all()
         quotes_list = []
         for quote in quotes:
@@ -27,7 +29,8 @@ class QuoteQuery(Resource):
 
 
 class NewQuote(Resource):
-    def post(self):
+    @check_cookie
+    def post(self, instance_id):
         try:
             data = request.get_json()
         except Exception as e:
@@ -40,7 +43,7 @@ class NewQuote(Resource):
             if teacher_id and quote:
                 teacher = Teacher.query.get(teacher_id)
 
-                db.session.add(Quote(teacher_id=teacher_id, quote=quote, teacher=teacher))
+                db.session.add(Quote(teacher_id=teacher_id, quote=quote, teacher=teacher, instance_id=instance_id))
                 db.session.commit()
 
         except KeyError as e:

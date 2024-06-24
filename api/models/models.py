@@ -1,3 +1,5 @@
+import random
+import string
 from datetime import datetime, timezone
 
 from .base import db
@@ -37,3 +39,4 @@ class Instance(db.Model):
     creation_date = db.Column(db.DateTime, nullable=False, default=datetime.now(tz=timezone.utc))
 
     quotes = db.relationship('Quote', backref='instance')
+
