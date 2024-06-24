@@ -5,7 +5,7 @@ from flask_marshmallow import Marshmallow
 
 from api.models.base import db
 
-from api.api_models.quote import QuoteQuery
+from api.api_models.quote import QuoteQuery, NewQuote
 
 app = Flask(__name__)
 
@@ -17,6 +17,7 @@ db.init_app(app)
 
 api = Api(app, prefix='/api')
 api.add_resource(QuoteQuery, '/quote')
+api.add_resource(NewQuote, '/new_quote')
 
 
 """
