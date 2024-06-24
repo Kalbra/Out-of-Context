@@ -24,8 +24,8 @@ html, body {
     border: var(--main-comment-border-line-width) solid var(--main-comment-border-color);
     border-radius: var(--main-comment-border-radius);
     padding: var(--main-commment-padding);
-    
-   
+
+
 }
 
 .comment-container {
@@ -69,8 +69,8 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-
     width: var(--Vote-Div-Width);
+    max-height: 200px; /* Size of the Thumb_up and Thumb_down */
 }
 
 .vote-up svg {
@@ -94,7 +94,19 @@ html, body {
 #footer {
     background-color: rgb(248, 59, 217);  /* safe delete */
 }
-  
+
+.comment-container {
+        display: flex;
+    }
+
+    .always-on-top {
+        display: flex;
+    }
+
+    .always-on-bottom {
+        display: flex;
+    }
+
 
 /* Responsive Design */
 
@@ -167,5 +179,22 @@ html, body {
         --Vote-Div-Width: 50vw;
       }
 
+
+    .comment-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto auto;
+        gap: 10px;
+    }
+
+    .always-on-top {
+        display: flex;
+        grid-column: span 2;
+    }
+
+    .always-on-bottom {
+        display: flex;
+        grid-column: span 2;
+    }
     /*Mach den Author im Feld über der Text sonst kann man ihn nicht mehr lesen*/
 }
