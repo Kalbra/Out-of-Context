@@ -1,6 +1,7 @@
 from flask import Flask, render_template, make_response, g
 from flask_restful import Api
 
+from api.api_models.teacher import TeacherList
 from api.auth import check_cookie
 from api.models.base import db
 
@@ -15,6 +16,7 @@ db.init_app(app)
 api = Api(app, prefix='/api')
 api.add_resource(QuoteQuery, '/quote')
 api.add_resource(NewQuote, '/new_quote')
+api.add_resource(TeacherList, '/teacher_list')
 
 
 @app.route('/')
