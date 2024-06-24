@@ -37,6 +37,8 @@ html, body {
     font-size: var(--main-comment-p-font-size);
     margin: 0px;
     font-family: var(--main-comment-p-font-family);
+
+
 }
 
 .comment .comment-text::before {
@@ -54,9 +56,6 @@ html, body {
     font-size: var(--main-comment-author-font-size);
 }
 
-.comment .comment-author::after {
-    content: ':'; /* Macht ein : nach dem Authornamen */
-}
 
 .comment img {
     width: var(--main-comment-img-width); /* setzt die Breite des Bildes */
@@ -70,19 +69,24 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: var(--main-comment-votes-margin-right);
+
+    width: var(--Vote-Div-Width);
+}
+
+.vote-up svg {
+    fill: limegreen;
+}
+
+.vote-down svg {
+    fill: Red;
 }
 
 .vote-arrow {
-    width: var(--main-vote-arrow-width);
-    height: var(--main-vote-arrow-height);
-    fill: var(--main-vote-arrow-color);
     cursor: pointer;
 }
 
 .vote-count {
-    font-size: var(--main-vote-count-font-size);
-    font-family: var(--main-vote-count-font-family);
+    font-size: calc(var(--Vote-Div-Width) / 5);
 }
 
 
@@ -113,9 +117,7 @@ html, body {
         --main-comment-author-font-size: 1.5vw;
         --main-commment-container-gap: 10px;
 
-        --main-vote-arrow-height: 60px;
-        --main-vote-arrow-height: 60px;
-        --main-vote-arrow-color: grey;
+        --Vote-Div-Width: 8vw;
 
       }
 }
@@ -138,6 +140,8 @@ html, body {
         --main-commment-author-font-family: 'Courier New', Courier, monospace;
         --main-comment-author-font-size: 2.5vw;
         --main-commment-container-gap: 10px;
+
+        --Vote-Div-Width: 30vw;
       }
 }
 
@@ -159,5 +163,9 @@ html, body {
         --main-commment-author-font-family: 'Courier New', Courier, monospace;
         --main-comment-author-font-size: 4vw;
         --main-commment-container-gap: 10px;
+
+        --Vote-Div-Width: 50vw;
       }
+
+    /*Mach den Author im Feld über der Text sonst kann man ihn nicht mehr lesen*/
 }
