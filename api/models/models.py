@@ -52,3 +52,7 @@ class ReactionLink(db.Model):
     quote_id = db.Column(db.Integer, db.ForeignKey("quote.id"), nullable=False)
 
     quote = db.relationship("Quote", backref="reaction_link")
+
+    __mapper_args__ = {
+        'confirm_deleted_rows': False
+    }

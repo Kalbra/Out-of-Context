@@ -44,7 +44,6 @@ class NewQuote(Resource):
         try:
             teacher_id = int(data["teacher_id"])
             quote_string = data["quote"]
-            print(quote_string)
 
             if teacher_id and quote_string:
                 teacher = Teacher.query.get(teacher_id)
