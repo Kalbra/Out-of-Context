@@ -6,12 +6,15 @@ from api.auth import check_cookie
 from api.models.base import db
 
 from api.api_models.quote import QuoteQuery, NewQuote
+from api.approve_bot import init_approve_bot
 
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///demo.db'
 
 db.init_app(app)
+
+init_approve_bot(app.app_context())
 
 api = Api(app, prefix='/api')
 api.add_resource(QuoteQuery, '/quote')

@@ -53,7 +53,7 @@ class NewQuote(Resource):
                 db.session.add(quote)
                 db.session.commit()
 
-                bot.loop.create_task(trigger_approval_request(quote, instance_id))
+                bot.loop.create_task(trigger_approval_request(quote.id, quote.quote, instance_id))
 
         except KeyError as e:
             response = jsonify({"message": "Not all parameters are provided correctly", "error": str(e)})

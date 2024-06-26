@@ -17,19 +17,25 @@ intents.reactions = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
+app_context = None
 
-async def trigger_approval_request(quote, instance_id):
+
+def init_approve_bot(ctx):
+    global app_context
+    app_context = ctx
+
+
+async def trigger_approval_request(quote_id, quote_string, instance_id):
     channel = bot.get_channel(CHANNEL_ID)
     if channel:
         embed = discord.Embed(
-            title=f"Quote ID: {quote.id};Instance ID: {instance_id}",
-            description=quote.quote,
+            title=f"Quote ID: {quote_id};Instance ID: {instance_id}",
+            description=quote_string,
             color=discord.Color.blue()
         )
         message = await channel.send(embed=embed)
 
-        db.session.add(ReactionLink(discord_message_id=message.id, quote_id=quote.id, quote=quote))
-
+        db.session.add(ReactionLink(discord_message_id=message.id, quote_id=quote_id))
         db.session.commit()
 
         await message.add_reaction("✅")
@@ -39,21 +45,27 @@ async def trigger_approval_request(quote, instance_id):
 @bot.event
 async def on_reaction_add(reaction, user):
     if not user.id == BOT_ID:
-        reaction_link = ReactionLink.query.filter(ReactionLink.discord_message_id == reaction.message.id).first()
+        with app_context:
+            reaction_link = db.session.query(ReactionLink).filter(
+                ReactionLink.discord_message_id == reaction.message.id).first()
 
-        print(reaction_link)
+            print(reaction_link)
 
-        if reaction_link:
-            db.session.delete(reaction_link.quote)
+            if reaction_link:
+                try:
+                    if str(reaction.emoji) == "✅":
+                        reaction_link.quote.approved = 1
+                        await reaction.message.delete()
 
-            if str(reaction.emoji) == "✅":
-                reaction_link.quote.approved = True
-                await reaction.message.delete()
+                    if str(reaction.emoji == "❌"):
+                        await reaction.message.delete()
 
-            if str(reaction.emoji == "❌"):
-                await reaction.message.delete()
+                except discord.errors.NotFound:
+                    pass
 
-            db.session.commit()
+                db.session.delete(reaction_link)
+
+                db.session.commit()
 
 
 async def trigger_function(message, user):
@@ -63,6 +75,7 @@ async def trigger_function(message, user):
 
 def run_bot():
     bot.run(TOKEN)
+
 
 bot_thread = threading.Thread(target=run_bot)
 bot_thread.start()
