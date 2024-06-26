@@ -1,8 +1,11 @@
-import random
-import string
 from datetime import datetime, timezone
 
 from .base import db
+
+viewed_instance = db.Table('viewed_instance',
+                           db.Column('quote_id', db.Integer(), db.ForeignKey('quote.id'), primary_key=True),
+                           db.Column('instance_id', db.Integer(), db.ForeignKey('instance.id'), primary_key=True)
+                           )
 
 
 class Quote(db.Model):
@@ -15,7 +18,8 @@ class Quote(db.Model):
     quote = db.Column(db.String(1000), nullable=False)
     votes = db.Column(db.Integer, nullable=False, default=0)
 
-    instance_id = db.Column(db.Integer, db.ForeignKey('instance.id'))
+    created_instance_id = db.Column(db.Integer, db.ForeignKey('instance.id'))
+    viewed_instances = db.relationship("Instance", secondary=viewed_instance, back_populates="viewed_quotes")
 
     creation_date = db.Column(db.DateTime, nullable=False, default=datetime.now(tz=timezone.utc))
 
@@ -38,5 +42,13 @@ class Instance(db.Model):
     auth_token = db.Column(db.String(100), nullable=False)
     creation_date = db.Column(db.DateTime, nullable=False, default=datetime.now(tz=timezone.utc))
 
-    quotes = db.relationship('Quote', backref='instance')
+    # created_quotes = db.relationship('Quote', backref='instance')
 
+    viewed_quotes = db.relationship("Quote", secondary=viewed_instance, back_populates="viewed_instances")
+
+
+class ReactionLink(db.Model):
+    discord_message_id = db.Column(db.Integer, primary_key=True)
+    quote_id = db.Column(db.Integer, db.ForeignKey("quote.id"), nullable=False)
+
+    quote = db.relationship("Quote", backref="reaction_link")

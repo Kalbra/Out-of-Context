@@ -1,9 +1,12 @@
+import asyncio
+
 from flask import request, jsonify
 from flask_restful import Resource, Api
 
 from api.auth import check_cookie
 from api.models.models import Quote, Teacher
 from api.models.base import db
+from api.approve_bot import trigger_approval_request, bot
 
 
 class QuoteQuery(Resource):
@@ -40,14 +43,17 @@ class NewQuote(Resource):
 
         try:
             teacher_id = int(data["teacher_id"])
-            quote = data["quote"]
-            print(quote)
+            quote_string = data["quote"]
+            print(quote_string)
 
-            if teacher_id and quote:
+            if teacher_id and quote_string:
                 teacher = Teacher.query.get(teacher_id)
+                quote = Quote(teacher_id=teacher_id, quote=quote_string, teacher=teacher, created_instance_id=instance_id)
 
-                db.session.add(Quote(teacher_id=teacher_id, quote=quote, teacher=teacher, instance_id=instance_id))
+                db.session.add(quote)
                 db.session.commit()
+
+                bot.loop.create_task(trigger_approval_request(quote, instance_id))
 
         except KeyError as e:
             response = jsonify({"message": "Not all parameters are provided correctly", "error": str(e)})
