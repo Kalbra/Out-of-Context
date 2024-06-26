@@ -56,6 +56,10 @@ html, body {
     font-size: var(--main-comment-author-font-size);
 }
 
+.comment-author::after {
+    content: ':';
+}
+
 
 .comment img {
     width: var(--main-comment-img-width); /* setzt die Breite des Bildes */
@@ -95,7 +99,7 @@ html, body {
     background-color: rgb(248, 59, 217);  /* safe delete */
 }
 
-.comment-container {
+    .comment-container {
         display: flex;
     }
 
@@ -120,17 +124,16 @@ html, body {
         --main-container-padding-inline: 5vw;
         --main-comment-border-radius: 15px;
         --main-commment-padding: 5px;
-        --main-comment-p-font-size: 2vw;
+        --main-comment-p-font-size: 3vw;
         --main-comment-border-line-width: 3px;
-        --main-comment-img-width: 1.5vw;
+        --main-comment-img-width: 2.5vw;
         --main-comment-img-border-radius: 90px;
         --main-comment-p-font-family: Arial, Helvetica, sans-serif;
         --main-commment-author-font-family: 'Courier New', Courier, monospace;
-        --main-comment-author-font-size: 1.5vw;
+        --main-comment-author-font-size: 2.5vw;
         --main-commment-container-gap: 10px;
 
-        --Vote-Div-Width: 8vw;
-
+        --Vote-Div-Width: 18vw;
       }
 }
 
@@ -153,8 +156,25 @@ html, body {
         --main-comment-author-font-size: 2.5vw;
         --main-commment-container-gap: 10px;
 
-        --Vote-Div-Width: 30vw;
+        --Vote-Div-Width: 20vw;
       }
+
+    .comment-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto auto;
+        gap: 0px;
+    }
+
+    .always-on-top {
+        display: flex;
+        grid-column: span 2;
+    }
+
+    .always-on-bottom {
+        display: flex;
+        grid-column: span 2;
+    }
 }
 
 @media (max-width: 599px) {
@@ -184,7 +204,7 @@ html, body {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: auto auto;
-        gap: 10px;
+        gap: 0px;
     }
 
     .always-on-top {
