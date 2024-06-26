@@ -8,7 +8,7 @@ from api.models.models import ReactionLink, Quote
 
 TOKEN = ''
 
-CHANNEL_ID = 1255253103918190687
+CHANNEL_ID = 1255505224274153503
 BOT_ID = 1255251185817096324
 
 intents = discord.Intents.default()
@@ -23,6 +23,8 @@ app_context = None
 def init_approve_bot(ctx):
     global app_context
     app_context = ctx
+    bot_thread = threading.Thread(target=run_bot)
+    bot_thread.start()
 
 
 async def trigger_approval_request(quote_id, quote_string, instance_id):
@@ -48,8 +50,6 @@ async def on_reaction_add(reaction, user):
         with app_context:
             reaction_link = db.session.query(ReactionLink).filter(
                 ReactionLink.discord_message_id == reaction.message.id).first()
-
-            print(reaction_link)
 
             if reaction_link:
                 try:
@@ -77,5 +77,4 @@ def run_bot():
     bot.run(TOKEN)
 
 
-bot_thread = threading.Thread(target=run_bot)
-bot_thread.start()
+

@@ -59,7 +59,7 @@ class NewQuote(Resource):
             response.status = 400
             return response
         except ValueError as e:
-            response = jsonify({"message": "Not all paraemters are provided as correct type", "error": str(e)})
+            response = jsonify({"message": "Not all parameters are provided as correct type", "error": str(e)})
             response.status = 400
             return response
 
