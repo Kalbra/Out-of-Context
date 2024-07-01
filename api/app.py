@@ -32,12 +32,5 @@ def home(instance_id):
     return resp
 
 
-@app.route('/senden')
-@check_cookie
-def senden():
-    resp = make_response(render_template('senden.html'))
-    return resp
-
-
 if __name__ == '__main__':
     app.run()
