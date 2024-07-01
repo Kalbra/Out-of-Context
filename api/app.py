@@ -1,5 +1,6 @@
 from flask import Flask, render_template, make_response, g
 from flask_restful import Api
+from werkzeug.serving import is_running_from_reloader
 
 from api.api_models.teacher import TeacherList
 from api.auth import check_cookie
@@ -14,7 +15,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///demo.db'
 
 db.init_app(app)
 
-init_approve_bot(app.app_context())
+
+if is_running_from_reloader():
+    init_approve_bot(app.app_context())
 
 api = Api(app, prefix='/api')
 api.add_resource(QuoteQuery, '/quote')

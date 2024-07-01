@@ -4,18 +4,14 @@ import discord
 from discord.ext import commands
 
 from api.models.base import db
-from api.models.models import ReactionLink, Quote
+from api.models.models import ReactionLink, Quote, Teacher
 
 TOKEN = ''
 
-CHANNEL_ID = 1255505224274153503
+APPROVE_CHANNEL_ID = 1255505224274153503
 BOT_ID = 1255251185817096324
 
-intents = discord.Intents.default()
-intents.messages = True
-intents.reactions = True
-
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 
 app_context = None
 
@@ -28,7 +24,7 @@ def init_approve_bot(ctx):
 
 
 async def trigger_approval_request(quote_id, quote_string, instance_id):
-    channel = bot.get_channel(CHANNEL_ID)
+    channel = bot.get_channel(APPROVE_CHANNEL_ID)
     if channel:
         embed = discord.Embed(
             title=f"Quote ID: {quote_id};Instance ID: {instance_id}",
@@ -42,6 +38,11 @@ async def trigger_approval_request(quote_id, quote_string, instance_id):
 
         await message.add_reaction("✅")
         await message.add_reaction("❌")
+
+
+@bot.event
+async def on_ready():
+    await bot.tree.sync()
 
 
 @bot.event
@@ -68,13 +69,20 @@ async def on_reaction_add(reaction, user):
                 db.session.commit()
 
 
-async def trigger_function(message, user):
-    # Your custom function here
-    await message.channel.send(f'{user.mention} reacted with 👍!')
+@bot.tree.command(name="new_teacher")
+async def new_teacher(interaction: discord.Interaction, teacher_name: str):
+    with app_context:
+        try:
+            teacher = Teacher(name=teacher_name)
+
+            db.session.add(teacher)
+            db.session.commit()
+
+            await interaction.response.send_message(f"Successfully added the '{teacher_name}'! Teacher ID: {teacher.id}")
+
+        except Exception as e:
+            await interaction.response.send_message(f"Failed to create teacher")
 
 
 def run_bot():
     bot.run(TOKEN)
-
-
-
